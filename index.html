@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gabriel Lima (ZK) | Portfólio</title>
+  <meta name="description" content="Portfólio de Gabriel Lima (ZK): banqueiro no C6 Bank, formado em programação, de Diadema-SP.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://foto Gab' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='68' font-size='54' font-weight='900' text-anchor='middle' fill='%2300FF00' font-family='Arial Black,Impact,sans-serif'%3EZK%3C/text%3E%3C/svg%3E">
+
+  <!-- Marca a página como "com JavaScript" antes da pintura, para as animações de entrada não piscarem -->
+  <script>document.documentElement.classList.add('js');</script>
+
+  <style>
+    /* =========================================================
+       1. TOKENS  (paleta e tipografia: altere tudo por aqui)
+       ========================================================= */
+    :root {
+      --white:  #FFFFFF;
+      --black:  #000000;
+      --green:  #00FF00;
+      --yellow: #FFFF00;
+
+      --display: Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Black", system-ui, sans-serif;
+      --body: "Trebuchet MS", "Segoe UI", Verdana, system-ui, sans-serif;
+
+      --header-h: 68px;
+      --ease-out: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; }
+
+    html {
+      scroll-behavior: smooth;                 /* rolagem suave entre seções */
+      scroll-padding-top: var(--header-h);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    img, video, audio { max-width: 100%; display: block; }
+    a { color: inherit; }
+    button { font: inherit; cursor: pointer; }
+    code { font-family: ui-monospace, Consolas, monospace; font-size: .9em; }
+
+    :focus-visible { outline: 4px solid var(--focus, var(--green)); outline-offset: 4px; }
+
+    .container { width: min(1180px, 100% - 2.5rem); margin-inline: auto; }
+
+    .skip-link {
+      position: fixed; left: 1rem; top: -4rem; z-index: 300;
+      background: var(--yellow); color: var(--black);
+      padding: .6rem 1rem; font-weight: 700; text-decoration: none;
+      transition: top .2s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* =========================================================
+       3. SEÇÕES: cores de fundo por tema
+       ========================================================= */
+    .sec { padding: clamp(4rem, 9vw, 8rem) 0; position: relative; }
+    .sec--white  { background: var(--white);  color: var(--black); --focus: var(--black); --shadow: var(--green); }
+    .sec--black  { background: var(--black);  color: var(--white); --focus: var(--green); --shadow: var(--green); }
+    .sec--green  { background: var(--green);  color: var(--black); --focus: var(--black); --shadow: var(--black); }
+    .sec--yellow { background: var(--yellow); color: var(--black); --focus: var(--black); --shadow: var(--black); }
+
+    .sec-head { margin-bottom: clamp(2rem, 5vw, 3.5rem); max-width: 46rem; }
+    .sec-title {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      line-height: .9;
+      text-transform: uppercase;
+      letter-spacing: .01em;
+    }
+    .sec-title::after {
+      content: "";
+      display: block;
+      width: 130px; height: 14px; margin-top: 1rem;
+      background: repeating-linear-gradient(-45deg, var(--black) 0 7px, var(--yellow) 7px 14px, var(--green) 14px 21px);
+      border: 2px solid var(--black);
+    }
+    .sec--black .sec-title::after { border-color: var(--white); }
+    .sec-sub { margin-top: 1.1rem; font-size: 1.15rem; max-width: 40rem; }
+
+    /* faixa decorativa (fita) */
+    .tape {
+      height: 20px;
+      background: repeating-linear-gradient(-45deg, var(--black) 0 20px, var(--yellow) 20px 40px, var(--green) 40px 60px);
+    }
+
+    /* =========================================================
+       4. CABEÇALHO E NAVEGAÇÃO
+       ========================================================= */
+    .progress {
+      position: fixed; top: 0; left: 0; width: 100%; height: 6px; z-index: 120;
+      background: linear-gradient(90deg, var(--green), var(--yellow));
+      transform-origin: left; transform: scaleX(0);
+    }
+
+    .site-header {
+      position: fixed; inset: 0 0 auto 0; z-index: 110;
+      height: var(--header-h);
+      background: rgba(0, 0, 0, .94);
+      backdrop-filter: blur(6px);
+      border-bottom: 4px solid var(--green);
+    }
+    .site-header .container { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+    .logo {
+      font-family: var(--display); font-size: 2rem; line-height: 1;
+      text-decoration: none; color: var(--green);
+      transition: transform .25s var(--ease-out), color .25s;
+    }
+    .logo:hover { transform: rotate(-6deg) scale(1.12); color: var(--yellow); }
+
+    .nav ul { list-style: none; padding: 0; display: flex; gap: .25rem; }
+    .nav a {
+      display: block; padding: .5rem .8rem;
+      font-weight: 700; font-size: .95rem; text-decoration: none;
+      border-bottom: 4px solid transparent;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .nav a:hover { color: var(--yellow); }
+    .nav a[aria-current="true"] { border-bottom-color: var(--green); color: var(--green); }
+
+    .nav-toggle {
+      display: none; width: 48px; height: 48px;
+      background: var(--yellow); border: 3px solid var(--black); border-radius: 0;
+      box-shadow: 4px 4px 0 var(--green);
+      place-items: center;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .nav-toggle:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--green); }
+    .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after {
+      display: block; width: 22px; height: 3px; background: var(--black);
+      transition: transform .3s var(--ease-out), background .2s;
+    }
+    .nav-toggle span { position: relative; }
+    .nav-toggle span::before, .nav-toggle span::after { content: ""; position: absolute; left: 0; }
+    .nav-toggle span::before { top: -7px; }
+    .nav-toggle span::after  { top: 7px; }
+    .nav-toggle[aria-expanded="true"] span { background: transparent; }
+    .nav-toggle[aria-expanded="true"] span::before { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span::after  { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 1040px) {
+      .nav-toggle { display: grid; }
+      .nav {
+        position: fixed; inset: var(--header-h) 0 auto 0;
+        background: var(--black); border-bottom: 4px solid var(--yellow);
+        padding: 1rem 1.25rem 1.5rem;
+        transform: translateY(-130%); visibility: hidden;
+        transition: transform .4s var(--ease-out), visibility 0s .4s;
+      }
+      .nav.open { transform: none; visibility: visible; transition: transform .4s var(--ease-out); }
+      .nav ul { flex-direction: column; gap: 0; }
+      .nav a { font-family: var(--display); font-weight: 400; font-size: 1.8rem; text-transform: uppercase; padding: .6rem 0; }
+    }
+
+    /* =========================================================
+       5. BOTÕES
+       ========================================================= */
+    .btn {
+      display: inline-block;
+      padding: 1rem 1.9rem;
+      font-family: var(--display); font-size: 1.35rem; text-transform: uppercase; letter-spacing: .04em;
+      text-decoration: none;
+      background: var(--yellow); color: var(--black);
+      border: 4px solid var(--black);
+      box-shadow: 7px 7px 0 var(--green);
+      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s;
+    }
+    .btn:hover { transform: translate(-4px, -4px) rotate(-1deg); box-shadow: 12px 12px 0 var(--green); background: var(--white); }
+    .btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--green); }
+
+    /* =========================================================
+       6. HERO
+       ========================================================= */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      padding: calc(var(--header-h) + 3rem) 0 4rem;
+      display: flex; align-items: center;
+      background:
+        radial-gradient(circle at 80% 40%, rgba(0, 255, 0, .22), transparent 55%),
+        radial-gradient(circle at 10% 95%, rgba(255, 255, 0, .16), transparent 45%),
+        var(--black);
+      overflow: hidden;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+
+    .hero-name {
+      font-family: var(--display); font-weight: 400;
+      font-size: clamp(3.6rem, 12.5vw, 10rem);
+      line-height: .84; text-transform: uppercase;
+      text-shadow: clamp(3px, .6vw, 8px) clamp(3px, .6vw, 8px) 0 var(--green);
+      margin-bottom: 1.6rem;
+    }
+    .hero-name .line { display: block; }
+    .ch { display: inline-block; }
+
+    .hero-role {
+      display: inline-block;
+      background: var(--yellow); color: var(--black);
+      font-weight: 800; font-size: clamp(1rem, 2.2vw, 1.3rem);
+      padding: .45rem 1rem; transform: rotate(-1.5deg);
+      box-shadow: 5px 5px 0 var(--green);
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-text {
+      max-width: 60ch;
+      padding-left: 1.2rem;
+      border-left: 6px solid var(--green);
+      margin-bottom: 2.2rem;
+    }
+    .hero-text strong { color: var(--yellow); }
+
+    /* Foto de perfil dentro de um "alto-falante" pulsante */
+    .speaker {
+      position: relative;
+      width: min(80vw, 460px); aspect-ratio: 1;
+      margin-inline: auto;
+      display: grid; place-items: center;
+      transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform .18s ease-out;
+      
+    }
+    .ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 6px solid var(--yellow); opacity: 0;
+      animation: pulse 3.2s ease-out infinite;
+    }
+    .ring:nth-child(2) { border-color: var(--green); animation-delay: 1.07s; }
+    .ring:nth-child(3) { animation-delay: 2.13s; }
+    @keyframes pulse { 0% { transform: scale(.74); opacity: .95; } 100% { transform: scale(1.16); opacity: 0; } }
+
+    .photo {
+      position: relative; width: 72%; aspect-ratio: 1; margin: 0;
+      border-radius: 50%; overflow: hidden;
+      border: 8px solid var(--yellow);
+      box-shadow: 0 0 0 8px var(--black), 0 0 0 16px var(--green);
+      background: var(--black);
+    }
+    .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
+    .speaker:hover .photo img { transform: scale(1.08); }
+
+    /* Entrada orquestrada do hero (uma única "cena" ao carregar) */
+    .js .ch {
+      opacity: 0; transform: translateY(70%) rotate(8deg);
+      animation: drop .75s cubic-bezier(.2, .9, .3, 1.25) forwards;
+      animation-delay: calc(var(--i) * 70ms + 150ms);
+    }
+    @keyframes drop { to { opacity: 1; transform: none; } }
+    .js .hero-in {
+      opacity: 0; transform: translateY(24px);
+      animation: rise .8s var(--ease-out) forwards;
+      animation-delay: calc(var(--d) * 140ms + 700ms);
+    }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
+    @media (max-width: 880px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .speaker { width: min(66vw, 330px); }
+    }
+
+    /* =========================================================
+       7. FAIXA ROLANTE (marquee)
+       ========================================================= */
+    .marquee { background: var(--yellow); color: var(--black); overflow: hidden; border-block: 5px solid var(--black); }
+    .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-group { display: flex; align-items: center; flex-shrink: 0; }
+    .marquee-group span {
+      font-family: var(--display); font-size: clamp(1.6rem, 4vw, 2.4rem);
+      text-transform: uppercase; padding: .6rem 0;
+    }
+    .marquee-group i { width: 16px; height: 16px; margin: 0 1.6rem; background: var(--black); border-radius: 50%; flex-shrink: 0; }
+    .marquee-group i:nth-of-type(even) { background: var(--green); border: 3px solid var(--black); }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* =========================================================
+       8. INTRODUÇÃO
+       ========================================================= */
+    .intro-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+    .intro-text {
+      font-size: clamp(1.2rem, 2.2vw, 1.55rem); line-height: 1.55; max-width: 36em;
+    }
+    .chips { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+    .chips li {
+      font-weight: 800; padding: .55rem 1.1rem; border: 3px solid var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    }
+    .chips li:nth-child(1) { background: var(--green); }
+    .chips li:nth-child(2) { background: var(--yellow); }
+    .chips li:nth-child(3) { background: var(--black); color: var(--white); }
+    .chips li:hover { transform: translate(-3px, -3px) rotate(-2deg); box-shadow: 8px 8px 0 var(--black); }
+    @media (max-width: 880px) { .intro-grid { grid-template-columns: 1fr; } }
+
+    /* =========================================================
+       9. MOLDURAS E MÍDIAS
+       ========================================================= */
+    .frame {
+      background: var(--black);
+      border: 6px solid var(--black);
+      box-shadow: 12px 12px 0 var(--shadow, var(--green));
+      transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+    }
+    .sec--black .frame { border-color: var(--yellow); }
+    .frame:hover { transform: translate(-5px, -5px); box-shadow: 18px 18px 0 var(--shadow, var(--green)); }
+
+    .frame video { width: 100%; aspect-ratio: 16 / 9; background: var(--black); object-fit: contain; }
+    .media-caption { margin-top: 2rem; max-width: 50ch; font-weight: 700; }
+
+    audio { width: 100%; accent-color: var(--green); }
+
+    /* Texto de apoio quando o arquivo de imagem ainda não existe */
+    .placeholder {
+      display: none; place-items: center; text-align: center; gap: .3rem;
+      width: 100%; height: 100%; padding: 1.5rem;
+      background: repeating-linear-gradient(-45deg, var(--black) 0 16px, #111 16px 32px);
+      color: var(--yellow); font-weight: 700;
+    }
+    .placeholder strong { display: block; font-family: var(--display); font-weight: 400; font-size: clamp(2.5rem, 8vw, 5rem); color: var(--green); line-height: 1; }
+    [data-media].missing img { display: none; }
+    [data-media].missing .placeholder { display: grid; align-content: center; }
+
+    /* Áudio */
+    .audio-card {
+      display: grid; grid-template-columns: auto 1fr; gap: clamp(1.2rem, 4vw, 3rem); align-items: center;
+      background: var(--black); color: var(--white);
+      border: 6px solid var(--black); box-shadow: 12px 12px 0 var(--green);
+      padding: clamp(1.4rem, 4vw, 3rem);
+      transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+    }
+    .audio-card:hover { transform: translate(-5px, -5px); box-shadow: 18px 18px 0 var(--green); }
+    .audio-icon {
+      width: clamp(84px, 14vw, 150px); aspect-ratio: 1; border-radius: 50%;
+      background: var(--yellow); display: grid; place-items: center;
+      border: 6px solid var(--green);
+      transition: transform .5s var(--ease-out);
+    }
+    .audio-icon svg { width: 55%; height: 55%; stroke: var(--black); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .audio-card:hover .audio-icon { transform: rotate(-12deg) scale(1.06); }
+    .audio-card.playing .audio-icon { animation: bump .6s ease-in-out infinite alternate; }
+    @keyframes bump { to { transform: scale(1.1); } }
+    .audio-card h3 { font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 4vw, 2.6rem); text-transform: uppercase; line-height: 1; color: var(--yellow); }
+    .audio-card p { margin: .6rem 0 1.2rem; max-width: 46ch; }
+    @media (max-width: 640px) { .audio-card { grid-template-columns: 1fr; justify-items: start; } }
+
+    /* Imagem de destaque */
+    .imgcard {
+      position: relative; margin: 0; overflow: hidden;
+      border: 6px solid var(--black); box-shadow: 12px 12px 0 var(--black);
+      background: var(--black); aspect-ratio: 16 / 10;
+      transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+    }
+    .imgcard img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-out), filter .5s; filter: grayscale(.85) contrast(1.05); }
+    .imgcard:hover { transform: translate(-5px, -5px) rotate(-.6deg); box-shadow: 18px 18px 0 var(--black); }
+    .imgcard:hover img { transform: scale(1.1) rotate(1deg); filter: grayscale(0) contrast(1.05); }
+    .imgcard figcaption {
+      position: absolute; inset: auto 0 0 0;
+      background: var(--yellow); color: var(--black); font-weight: 800;
+      padding: 1rem 1.4rem; border-top: 5px solid var(--black);
+      transform: translateY(101%); transition: transform .45s var(--ease-out);
+    }
+    .imgcard:hover figcaption, .imgcard:focus-within figcaption { transform: none; }
+    @media (hover: none) {
+      .imgcard img { filter: none; }
+      .imgcard figcaption { transform: none; }
+    }
+
+    /* Infográfico */
+    .info-wrap { max-width: 980px; margin-inline: auto; }
+    .zoom {
+      position: relative; display: block; width: 100%; padding: 0;
+      background: var(--white); border: 6px solid var(--yellow);
+      box-shadow: 12px 12px 0 var(--green);
+      transition: transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+    }
+    .zoom:hover { transform: translate(-5px, -5px); box-shadow: 18px 18px 0 var(--green); }
+    .zoom img { width: 100%; height: auto; min-height: 220px; object-fit: contain; }
+    .zoom .placeholder { min-height: 320px; }
+    .zoom-badge {
+      position: absolute; right: 1rem; bottom: 1rem;
+      background: var(--yellow); color: var(--black); font-weight: 800; font-size: .95rem;
+      padding: .45rem .9rem; border: 3px solid var(--black);
+      transition: transform .25s var(--ease-out), background .25s;
+    }
+    .zoom:hover .zoom-badge { transform: scale(1.08) rotate(-2deg); background: var(--green); }
+    .info-hint { margin-top: 2rem; max-width: 52ch; }
+
+    .lightbox { border: 0; padding: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; background: var(--black); color: var(--white); }
+    .lightbox::backdrop { background: rgba(0, 0, 0, .92); }
+    .lightbox-scroll { width: 100%; height: 100%; overflow: auto; padding: 4.5rem 1rem 1.5rem; -webkit-overflow-scrolling: touch; }
+    .lightbox img { max-width: none; width: max(100%, 900px); height: auto; margin-inline: auto; background: var(--white); }
+    .lightbox-close {
+      position: fixed; top: 1rem; right: 1rem; z-index: 2;
+      background: var(--yellow); color: var(--black); font-weight: 800;
+      border: 3px solid var(--black); box-shadow: 4px 4px 0 var(--green);
+      padding: .6rem 1.1rem; transition: transform .15s, box-shadow .15s;
+    }
+    .lightbox-close:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--green); }
+    .lightbox :focus-visible { outline-color: var(--green); }
+
+    /* =========================================================
+       10. MÚSICA (palco, visual diferente das outras seções)
+       ========================================================= */
+    .stage {
+      position: relative; overflow: hidden;
+      padding: clamp(5rem, 10vw, 9rem) 0;
+      background:
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, .05) 0 2px, transparent 2px 46px),
+        radial-gradient(ellipse at 50% 55%, rgba(255, 255, 0, .28), transparent 60%),
+        radial-gradient(ellipse at 50% 120%, rgba(0, 255, 0, .35), transparent 55%),
+        var(--black);
+      color: var(--white);
+      --focus: var(--green);
+    }
+    .stage-grid { display: grid; grid-template-columns: 1fr minmax(0, 560px) 1fr; gap: clamp(1rem, 4vw, 3rem); align-items: center; }
+
+    .cabinet {
+      aspect-ratio: 3 / 5; max-height: 560px; width: 100%; max-width: 230px;
+      background: var(--black); border: 6px solid var(--yellow);
+      box-shadow: 10px 10px 0 var(--green);
+      display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; padding: 1rem;
+    }
+    .cabinet--l { justify-self: end; }
+    .cabinet--r { justify-self: start; }
+    .cone {
+      border-radius: 50%; aspect-ratio: 1; width: 78%;
+      background: radial-gradient(circle, var(--green) 0 9%, var(--black) 10% 22%, rgba(255, 255, 255, .22) 23% 25%, var(--black) 26% 55%, var(--yellow) 56% 60%, var(--black) 61%);
+      border: 4px solid var(--white);
+    }
+    .cone--small { width: 42%; }
+    .stage.playing .cone { animation: woof .5s ease-in-out infinite alternate; }
+    .stage.playing .cone--small { animation-duration: .25s; }
+    @keyframes woof { to { transform: scale(1.09); } }
+
+    .deck { text-align: center; }
+    .vinyl {
+      width: clamp(170px, 34vw, 270px); aspect-ratio: 1; margin: 0 auto 1.6rem; border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 0 24%, rgba(255, 255, 255, .0) 25%),
+        repeating-radial-gradient(circle, var(--black) 0 3px, rgba(255, 255, 255, .14) 3px 4px);
+      border: 5px solid var(--white);
+      display: grid; place-items: center;
+      animation: spin 3.4s linear infinite; animation-play-state: paused;
+      box-shadow: 0 0 0 8px var(--black), 0 0 0 14px var(--yellow);
+    }
+    .stage.playing .vinyl { animation-play-state: running; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .vinyl-label {
+      width: 36%; aspect-ratio: 1; border-radius: 50%;
+      background: var(--green); color: var(--black); border: 4px solid var(--black);
+      display: grid; place-items: center; font-family: var(--display); font-size: clamp(1.4rem, 4vw, 2.1rem);
+    }
+    .deck h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; font-size: clamp(3rem, 9vw, 5.6rem); line-height: .9; color: var(--yellow); text-shadow: 5px 5px 0 var(--green); }
+    .deck p { margin: 1rem auto 1.6rem; max-width: 44ch; }
+    .deck audio { filter: none; }
+
+    .eq { display: flex; align-items: flex-end; gap: 4px; height: 96px; margin-top: 1.8rem; }
+    .eq i { flex: 1; height: 10%; background: linear-gradient(to top, var(--green), var(--yellow)); border-radius: 2px 2px 0 0; }
+    .stage.playing .eq i { animation: eq .8s ease-in-out infinite alternate; animation-delay: var(--d); }
+    @keyframes eq { from { height: 10%; } to { height: var(--h); } }
+
+    @media (max-width: 900px) {
+      .stage-grid { grid-template-columns: 1fr; }
+      .cabinet { display: none; }
+    }
+
+    /* =========================================================
+       11. RODAPÉ
+       ========================================================= */
+    .site-footer { background: var(--green); color: var(--black); --focus: var(--black); padding: clamp(3rem, 7vw, 5rem) 0 2rem; }
+    .footer-top { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: center; }
+    .footer-name { font-family: var(--display); font-weight: 400; font-size: clamp(2.6rem, 8vw, 5rem); line-height: .9; text-transform: uppercase; }
+    .footer-phrase { margin-top: .6rem; font-weight: 700; font-size: 1.15rem; max-width: 30ch; }
+
+    .social { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .9rem; }
+    .social a {
+      display: grid; place-items: center; width: 56px; height: 56px;
+      background: var(--black); color: var(--green);
+      border: 3px solid var(--black); border-radius: 50%;
+      transition: transform .25s var(--ease-out), background .25s, color .25s, box-shadow .25s;
+    }
+    .social a:hover { background: var(--yellow); color: var(--black); transform: translateY(-6px) rotate(-8deg); box-shadow: 0 8px 0 var(--black); }
+    .social svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .copyright { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 4px solid var(--black); font-weight: 700; font-size: .95rem; }
+
+    /* =========================================================
+       12. REVELAR AO ROLAR
+       ========================================================= */
+    .js .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity .8s ease, transform .8s var(--ease-out);
+      transition-delay: calc(var(--d, 0) * 110ms);
+    }
+    .js .reveal--left  { transform: translateX(-48px); }
+    .js .reveal--right { transform: translateX(48px); }
+    .js .reveal.in { opacity: 1; transform: none; }
+
+    /* Respeita quem prefere menos movimento */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .js .ch, .js .hero-in, .js .reveal { opacity: 1; transform: none; }
+      .marquee-track { animation: none; }
+      .ring { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ===================== CABEÇALHO ===================== -->
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="#inicio" aria-label="Gabriel Lima, voltar ao início">ZK</a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+        <span></span>
+      </button>
+
+      <nav class="nav" id="nav" aria-label="Principal">
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#introducao">Introdução</a></li>
+          <li><a href="#video">Vídeo</a></li>
+          <li><a href="#audio">Áudio</a></li>
+          <li><a href="#imagem">Imagem</a></li>
+          <li><a href="#infografico">Infográfico</a></li>
+          <li><a href="#animacao">Animação</a></li>
+          <li><a href="#musica">Música</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+
+    <!-- ===================== 1. HERO ===================== -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+
+        <div class="hero-copy">
+          <!-- NOME -->
+          <h1 class="hero-name" id="hero-title" aria-label="Gabriel Lima">
+            <span class="line" data-split data-offset="0">Gabriel</span>
+            <span class="line" data-split data-offset="7">Lima</span>
+          </h1>
+
+          <!-- PROFISSÃO / ÁREA -->
+          <p class="hero-role hero-in" style="--d:1">Atuando na área de N2 C6 Bank</p>
+
+          <!-- TEXTO DE APRESENTAÇÃO -->
+          <p class="hero-text hero-in" style="--d:2">
+            Oi, tudo bem? Sou o Gabriel, também conhecido como <strong>ZK</strong>, mais na verdade pode me chamar como preferir haha.
+            Tenho 20 anos, sou de Diadema-SP, filho da Ione e do Samuel e neto da Dona Marina.
+            Sou banqueiro, atualmente atuando no C6 Bank. Apesar de pouca idade contenho um reportório interessante.
+            Sou formado em programação, tenho 2 cursos de capacitação concluídos, cursos de Word, Excel, etc.
+            Gosto de conhecer coisas novas e estar presente para me aprimorar cada vez mais.
+          </p>
+
+          <!-- BOTÃO CTA: leva para a seção de conteúdos (vídeo) -->
+          <div class="hero-in" style="--d:3">
+            <a class="btn" href="#video">Venha me conhecer mais</a>
+          </div>
+        </div>
+
+        <!-- FOTO DE PERFIL -->
+        <div class="hero-visual hero-in" style="--d:2">
+          <div class="speaker" id="speaker">
+            <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+            <figure class="photo" data-media>
+              <!-- ▼▼ SUBSTITUA pela sua foto: imagens/perfil.jpg ▼▼ -->
+              <img src="Foto gabriel.jpeg" alt="Foto de perfil de Gabriel Lima" width="600" height="600" fetchpriority="high">
+              <span class="placeholder"><span><strong>ZK</strong>imagens/perfil.jpg</span></span>
+            </figure>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Faixa rolante -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group"><span>Gabriel Lima</span><i></i><span>ZK</span><i></i><span>Sound system</span><i></i><span>C6 Bank</span><i></i><span>Programação</span><i></i><span>Sempre aprendendo</span><i></i></div>
+        <div class="marquee-group"><span>Gabriel Lima</span><i></i><span>ZK</span><i></i><span>Sound system</span><i></i><span>C6 Bank</span><i></i><span>Programação</span><i></i><span>Sempre aprendendo</span><i></i></div>
+      </div>
+    </div>
+
+    <!-- ===================== 2. INTRODUÇÃO ===================== -->
+    <section class="sec sec--white" id="introducao" aria-labelledby="introducao-title">
+      <div class="container intro-grid">
+        <header class="sec-head reveal reveal--left" style="margin-bottom:0">
+          <h2 class="sec-title" id="introducao-title">Inteligência Artificial</h2>
+        </header>
+
+        <div class="reveal reveal--right" style="--d:1">
+          <!-- TEXTO DA INTRODUÇÃO: edite livremente -->
+          <p class="intro-text">
+            A Inteligência Artificial passou de experiências acadêmicas e sistemas simples para ferramentas
+            capazes de trabalhar com linguagem, imagens, áudio, código e grandes volumes de informação. Saber
+            usar IA não significa apenas saber fazer perguntas: também envolve verificar resultados, proteger
+            dados e usar a tecnologia com responsabilidade. Quando bem utilizada, a IA pode aumentar
+            produtividade, criatividade e aprendizado.
+          </p>
+          <ul class="chips">
+            <li>Verificar resultados</li>
+            <li>Proteger dados</li>
+            <li>Usar com responsabilidade</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="tape" aria-hidden="true"></div>
+
+    <!-- ===================== 3. VÍDEO ===================== -->
+    <section class="sec sec--black" id="video" aria-labelledby="video-title">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2 class="sec-title" id="video-title">Vídeo</h2>
+          <p class="sec-sub">Dê o play e acompanhe esta apresentação em movimento.</p>
+        </header>
+
+        <div class="reveal" style="--d:1">
+          <div class="frame">
+            <video controls preload="metadata" playsinline>
+              <!-- ▼▼ INSIRA SEU ARQUIVO DE VÍDEO AQUI (pasta video/) ▼▼ -->
+              <source src="video flow.mp4" type="video/mp4">
+              <!-- ▲▲ -->
+              Seu navegador não suporta a reprodução de vídeo.
+            </video>
+          </div>
+          <p class="media-caption">Legenda do vídeo: troque este texto pela descrição que preferir.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. ÁUDIO ===================== -->
+    <section class="sec sec--yellow" id="audio" aria-labelledby="audio-title">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2 class="sec-title" id="audio-title">Áudio</h2>
+          <p class="sec-sub">Aperte o play e escute.</p>
+        </header>
+
+        <div class="reveal" style="--d:1">
+        <div class="audio-card" data-player>
+          <div class="audio-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          </div>
+          <div style="width:100%">
+            <h3>Título do áudio</h3>
+            <p>CONHEÇA O DANCEHALL E COMO UMA CULTURA MUSICAL MUDOU O FUTURO DA TECNOLOGIA.</p>
+            <audio controls preload="metadata">
+              <!-- ▼▼ INSIRA SEU ARQUIVO DE ÁUDIO AQUI (pasta audio/) ▼▼ -->
+              <source src="ElevenLabs_2026-10-03T12_14_06_bigode_gen_sp100_s50_sb75_se0_b_m2 (1).mp3" type="audio/mpeg">
+              <!-- ▲▲ -->
+              Seu navegador não suporta a reprodução de áudio.
+            </audio>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 5. IMAGEM ===================== -->
+    <section class="sec sec--green" id="imagem" aria-labelledby="imagem-title">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2 class="sec-title" id="imagem-title">Imagem</h2>
+          <p class="sec-sub">Passe o mouse (ou toque) para ver a imagem ganhar cor.</p>
+        </header>
+
+        <div class="reveal" style="--d:1">
+          <figure class="imgcard" data-media tabindex="0">
+            <!-- ▼▼ SUBSTITUA pela sua imagem (pasta imagens/) ▼▼ -->
+            <img src="reggae-and-sound-system-culture-in-the-uk.webp" alt="Descrição da imagem" loading="lazy">
+            <!-- ▲▲ -->
+            <span class="placeholder"><span><strong>Imagem</strong>imagens/imagem.jpg</span></span>
+            <figcaption>Levo a cultura do Dancehall junto comigo</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 6. INFOGRÁFICO ===================== -->
+    <section class="sec sec--black" id="infografico" aria-labelledby="info-title">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2 class="sec-title" id="info-title">Infográfico</h2>
+          <p class="sec-sub">Em telas pequenas, toque no infográfico para abrir em tela cheia e arrastar para ver os detalhes.</p>
+        </header>
+
+        <div class="info-wrap reveal" style="--d:1">
+          <button class="zoom" id="zoomBtn" type="button" data-media aria-label="Ampliar infográfico">
+            <!-- ▼▼ SUBSTITUA pelo seu infográfico (pasta imagens/) ▼▼ -->
+            <img src="cartaz-programaþÒo-1.webp" alt="Infográfico" loading="lazy">
+            <!-- ▲▲ -->
+            <span class="placeholder"><span><strong>Infográfico</strong>imagens/infografico.png</span></span>
+            <span class="zoom-badge">Ampliar</span>
+          </button>
+          <p class="info-hint">COMO A CULTURA DANCEHALL SE MOVIMENTA? COMO A NEGRITUDE RESISTE?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Janela de ampliação do infográfico -->
+    <dialog class="lightbox" id="lightbox" aria-label="Infográfico ampliado">
+      <button class="lightbox-close" id="lightboxClose" type="button">Fechar</button>
+      <div class="lightbox-scroll"><img id="lightboxImg" src="" alt=""></div>
+    </dialog>
+
+    <!-- ===================== 7. ANIMAÇÃO ===================== -->
+    <section class="sec sec--white" id="animacao" aria-labelledby="animacao-title">
+      <div class="container">
+        <header class="sec-head reveal">
+          <h2 class="sec-title" id="animacao-title">Animação</h2>
+          <p class="sec-sub">Uma ideia em movimento.</p>
+        </header>
+
+        <div class="reveal" style="--d:1">
+          <div class="frame">
+            <video controls preload="metadata" playsinline>
+              <!-- ▼▼ INSIRA SEU ARQUIVO DE ANIMAÇÃO AQUI (pasta animacao/) ▼▼ -->
+              <source src="video flow.mp4" type="video/mp4">
+              <!-- ▲▲ -->
+              Seu navegador não suporta a reprodução de vídeo.
+            </video>
+          </div>
+          <p class="media-caption">Legenda da animação: troque este texto pela descrição que preferir.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="tape" aria-hidden="true"></div>
+
+    <!-- ===================== 8. MÚSICA ===================== -->
+    <section class="stage" id="musica" aria-labelledby="musica-title">
+      <div class="container stage-grid">
+
+        <div class="cabinet cabinet--l reveal reveal--left" aria-hidden="true">
+          <span class="cone cone--small"></span><span class="cone"></span>
+        </div>
+
+        <div class="deck reveal" style="--d:1" data-player>
+          <div class="vinyl" aria-hidden="true"><div class="vinyl-label">ZK</div></div>
+          <h2 id="musica-title">Música</h2>
+          <p>Uma produção sonora para fechar o set. Aumente o volume.</p>
+          <audio controls preload="none">
+            <!-- ▼▼ INSIRA SUA MÚSICA AQUI (pasta musica/) ▼▼ -->
+            <source src="PSIKOEVENT (1).mp3" type="audio/mpeg">
+            <!-- ▲▲ -->
+            Seu navegador não suporta a reprodução de áudio.
+          </audio>
+          <div class="eq" id="eq" aria-hidden="true"></div>
+        </div>
+
+        <div class="cabinet cabinet--r reveal reveal--right" aria-hidden="true">
+          <span class="cone cone--small"></span><span class="cone"></span>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== 9. RODAPÉ ===================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <p class="footer-name">Gabriel Lima</p>
+          <p class="footer-phrase">Sempre aprendendo, sempre em movimento.</p>
+        </div>
+
+        <!-- REDES SOCIAIS: troque cada "#" pelo link do seu perfil -->
+        <ul class="social">
+          <li>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="GitHub">
+              <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="YouTube">
+              <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Outra rede">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <p class="copyright">&copy; <span id="year">2026</span> Gabriel Lima. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      'use strict';
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- Nome do hero: letra por letra ---------- */
+      document.querySelectorAll('[data-split]').forEach(el => {
+        const text = el.textContent.trim();
+        const offset = parseInt(el.dataset.offset || '0', 10);
+        el.textContent = '';
+        el.setAttribute('aria-hidden', 'true');
+        [...text].forEach((letter, i) => {
+          const s = document.createElement('span');
+          s.className = 'ch';
+          s.style.setProperty('--i', i + offset);
+          s.textContent = letter;
+          el.appendChild(s);
+        });
+      });
+
+      /* ---------- Imagens ausentes: mostra aviso com o caminho do arquivo ---------- */
+      const markMissing = img => {
+        const holder = img.closest('[data-media]');
+        if (holder) holder.classList.add('missing');
+      };
+      document.querySelectorAll('img').forEach(img => {
+        if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) markMissing(img);
+        img.addEventListener('error', () => markMissing(img));
+      });
+
+      /* ---------- Revelar elementos ao rolar ---------- */
+      const reveals = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+          });
+        }, { threshold: .15, rootMargin: '0px 0px -6% 0px' });
+        reveals.forEach(el => io.observe(el));
+      } else {
+        reveals.forEach(el => el.classList.add('in'));
+      }
+
+      /* ---------- Barra de progresso da rolagem ---------- */
+      const bar = document.getElementById('progress');
+      let ticking = false;
+      const updateBar = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(updateBar); ticking = true; }
+      }, { passive: true });
+      updateBar();
+
+      /* ---------- Menu mobile ---------- */
+      const toggle = document.getElementById('navToggle');
+      const nav = document.getElementById('nav');
+      const setNav = open => {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      };
+      toggle.addEventListener('click', () => setNav(!nav.classList.contains('open')));
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setNav(false)));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') setNav(false); });
+
+      /* ---------- Link ativo no menu ---------- */
+      const links = [...nav.querySelectorAll('a')];
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      if ('IntersectionObserver' in window) {
+        const spy = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            links.forEach(a => a.removeAttribute('aria-current'));
+            const active = links.find(a => a.getAttribute('href') === '#' + e.target.id);
+            if (active) active.setAttribute('aria-current', 'true');
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        sections.forEach(s => spy.observe(s));
+      }
+
+      /* ---------- Inclinação da foto do hero acompanhando o mouse ---------- */
+      const speaker = document.getElementById('speaker');
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (speaker && finePointer && !reduceMotion) {
+        const hero = document.getElementById('inicio');
+        hero.addEventListener('mousemove', e => {
+          const r = speaker.getBoundingClientRect();
+          const x = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
+          const y = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
+          speaker.style.setProperty('--ry', (x * 18).toFixed(2) + 'deg');
+          speaker.style.setProperty('--rx', (-y * 18).toFixed(2) + 'deg');
+        });
+        hero.addEventListener('mouseleave', () => {
+          speaker.style.setProperty('--rx', '0deg');
+          speaker.style.setProperty('--ry', '0deg');
+        });
+      }
+
+      /* ---------- Equalizador da seção de música ---------- */
+      const eq = document.getElementById('eq');
+      for (let i = 0; i < 28; i++) {
+        const b = document.createElement('i');
+        b.style.setProperty('--h', (25 + Math.random() * 75).toFixed(0) + '%');
+        b.style.setProperty('--d', (-Math.random() * 0.8).toFixed(2) + 's');
+        eq.appendChild(b);
+      }
+
+      /* ---------- Áudio e vídeo: só um toca por vez; seções reagem ao som ---------- */
+      const medias = [...document.querySelectorAll('audio, video')];
+      medias.forEach(m => {
+        const holder = m.closest('[data-player]');
+        const stage = m.closest('.stage');
+        const setPlaying = on => {
+          if (holder && holder.classList.contains('audio-card')) holder.classList.toggle('playing', on);
+          if (stage) stage.classList.toggle('playing', on);
+        };
+        m.addEventListener('play', () => {
+          medias.forEach(o => { if (o !== m) o.pause(); });
+          setPlaying(true);
+        });
+        m.addEventListener('pause', () => setPlaying(false));
+        m.addEventListener('ended', () => setPlaying(false));
+      });
+
+      /* ---------- Infográfico em tela cheia ---------- */
+      const zoomBtn = document.getElementById('zoomBtn');
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const closeBtn = document.getElementById('lightboxClose');
+      if (zoomBtn && lightbox && typeof lightbox.showModal === 'function') {
+        zoomBtn.addEventListener('click', () => {
+          const src = zoomBtn.querySelector('img');
+          lightboxImg.src = src.getAttribute('src');
+          lightboxImg.alt = src.getAttribute('alt') || '';
+          lightbox.showModal();
+        });
+        closeBtn.addEventListener('click', () => lightbox.close());
+      } else if (zoomBtn) {
+        zoomBtn.addEventListener('click', () => window.open(zoomBtn.querySelector('img').getAttribute('src'), '_blank'));
+      }
+
+      /* ---------- Ano no rodapé ---------- */
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
